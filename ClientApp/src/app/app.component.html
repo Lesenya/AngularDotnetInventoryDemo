@@ -1,7 +1,7 @@
 <body>
   <app-nav-menu></app-nav-menu>
   <div class="container">
-    <table class=" table">
+    <table class=" table" *ngIf = "products; else loader">
       <thead>
         <tr>
           <td>Id</td>
@@ -10,12 +10,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>{{product.productId}}</td>
-          <td>{{product.name}}</td>
-          <td>{{product.price}}</td>
+        <tr *ngFor = "let prod of products;">
+          <td>{{prod.productId}}</td>
+          <td>{{prod.name}}</td>
+          <td>{{prod.price}}</td>
         </tr>
       </tbody>
     </table>
   </div>
+  <ng-template #loader>
+    <div class=" col-12 text-center text-danger">
+      Loading...
+    </div>
+  </ng-template>
 </body>

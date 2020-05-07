@@ -8,7 +8,12 @@ import { Product } from './models/product.model';
 })
 export class AppComponent {
   constructor(public repo: Repository) {}
+
   public get product(): Product {
     return this.repo.product;
+  }
+
+  public get products(): Product[] {
+    return this.repo.products;
   }
 }

@@ -1,10 +1,25 @@
 import { Product } from "./product.model";
 import { Supplier } from "./supplier.model";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
+@Injectable()
 export class Repository {
-    constructor() {
-        this.product = {productId: 1, name: "Prod 1", description: "Description", price: 230};
+    constructor(private http: HttpClient) {
+        this.getProducts();
     }
-    public product: Product
-    public supplier: Supplier
+    public product: Product;
+    public products: Product[]
+    public supplier: Supplier;
+
+    public getProduct(id: number) {
+        this.http.get<Product>(`/api/products/${id}`).subscribe(res => {
+            this.product = res;
+        });
+    }
+    public getProducts(related: boolean = false) {
+        this.http.get<Product[]>(`api/products?related=${related}`).subscribe(res => {
+            this.products = res;
+        });
+    }
 }
