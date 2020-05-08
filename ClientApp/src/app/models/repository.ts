@@ -49,6 +49,11 @@ export class Repository {
             this.products.push(prod);
         });
     }
+    public deleteProduct(id: number) {
+        this.http.delete(`/api/products/${id}`).subscribe(res => {
+            this.getProducts();
+        });
+    }
     //suppliers api
     public getSupplier(id: number) {
         this.http.get<Supplier>(`/api/suppliers/${id}`).subscribe(res => {
@@ -72,6 +77,11 @@ export class Repository {
         this.http.put<number>(`/api/suppliers/${sup.supplierId}`, data).subscribe(res => {
             sup.supplierId = res;
             this.suppliers.push(sup);
+        });
+    }
+    public deleteSupplier(id: number) {
+        this.http.delete(`/api/suppliers/${id}`).subscribe(res => {
+            this.getSuppliers();
         });
     }
 }

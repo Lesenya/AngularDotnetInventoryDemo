@@ -10,5 +10,13 @@ namespace AngularDotnetInventoryDemo.Models
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasOne<Supplier>(p => p.Supplier)
+                .WithMany(s => s.Products)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
     }
 }
