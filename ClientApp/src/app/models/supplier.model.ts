@@ -4,6 +4,7 @@ export class Supplier {
        public supplierId?: number,
        public name?: string,
        public surname?: string,
+       public location?: string,
        public products?: Product[]
    ) {}
 }

@@ -1,6 +1,16 @@
 <body>
   <app-nav-menu></app-nav-menu>
   <div class="container">
+    <div class="row">
+      <div class=" col-12 p-2">
+        <button class=" btn btn-primary mr-3" (click)="addProduct()">
+          Create Product
+        </button>
+        <button class=" btn btn-primary mr-3" (click)="addSupplier()">
+          Create Supplier
+        </button>
+      </div>
+    </div>
     <table class=" table" *ngIf = "products; else loader">
       <thead>
         <tr>

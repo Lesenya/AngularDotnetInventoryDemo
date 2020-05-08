@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AngularDotnetInventoryDemo.Models;
 using Microsoft.EntityFrameworkCore;
+using AngularDotnetInventoryDemo.Models.BindingTargets;
 
 namespace AngularDotnetInventoryDemo.Controllers
 {
@@ -38,8 +39,23 @@ namespace AngularDotnetInventoryDemo.Controllers
                         p.Supplier.Products = null;
                     }
                 });
+                return productList;
             }
             return products;
+        }
+
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody] ProductData productData) {
+            if (ModelState.IsValid) {
+                Product product = productData.Product;
+                if (product.Supplier != null && product.Supplier.SupplierId != 0) {
+                    context.Attach(product.Supplier);
+                }
+                context.Products.Add(product);
+                context.SaveChanges();
+                return Ok(product.ProductId);
+            }
+            return BadRequest(ModelState);
         }
     }
 }
