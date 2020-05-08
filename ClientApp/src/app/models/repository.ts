@@ -36,6 +36,19 @@ export class Repository {
             this.products.push(prod);
         });
     }
+    public updateProduct(prod: Product) {
+        let data = {
+            name: prod.name, 
+            category: prod.category,
+            description: prod.description,
+            price: prod.price,
+            supplier: prod.supplier ? prod.supplier.supplierId : 0
+        }
+        this.http.put<number>(`/api/products/${prod.productId}`, data).subscribe(res => {
+            prod.productId = res;
+            this.products.push(prod);
+        });
+    }
     //suppliers api
     public getSupplier(id: number) {
         this.http.get<Supplier>(`/api/suppliers/${id}`).subscribe(res => {
@@ -50,6 +63,13 @@ export class Repository {
     public createSupplier(sup: Supplier) {
         let data = {name: sup.name, surname: sup.surname, location: sup.location};
         this.http.post<number>(`/api/suppliers`, data).subscribe(res => {
+            sup.supplierId = res;
+            this.suppliers.push(sup);
+        });
+    }
+    public updateSupplier(sup: Supplier) {
+        let data = {name: sup.name, surname: sup.surname, location: sup.location};
+        this.http.put<number>(`/api/suppliers/${sup.supplierId}`, data).subscribe(res => {
             sup.supplierId = res;
             this.suppliers.push(sup);
         });

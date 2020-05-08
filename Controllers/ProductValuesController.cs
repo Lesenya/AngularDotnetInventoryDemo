@@ -57,5 +57,19 @@ namespace AngularDotnetInventoryDemo.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct(long id, [FromBody] ProductData productData) {
+            if (ModelState.IsValid) {
+                Product product = productData.Product;
+                if (product.Supplier != null && product.Supplier.SupplierId != 0) {
+                    context.Attach(product.Supplier);
+                }
+                context.Products.Update(product);
+                context.SaveChanges();
+                return Ok();
+            }
+            return BadRequest(ModelState);
+        }
     }
 }
