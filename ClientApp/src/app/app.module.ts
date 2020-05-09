@@ -7,23 +7,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ModelModule } from './models/model.module';
-import { ProductTableComponent } from './structure/productTable.component';
-import { ProductDetailComponent } from './structure/productDetail.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StoreModule } from './store/store.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    ProductTableComponent,
-    ProductDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    ModelModule
+    ModelModule,
+    StoreModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
