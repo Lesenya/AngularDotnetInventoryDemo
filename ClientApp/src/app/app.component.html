@@ -2,35 +2,9 @@
   <app-nav-menu></app-nav-menu>
   <div class="container">
     <div class="row">
-      <div class=" col-12 p-2">
-        <button class=" btn btn-primary mr-3" (click)="addProduct()">
-          Create Product
-        </button>
-        <button class=" btn btn-primary mr-3" (click)="addSupplier()">
-          Create Supplier
-        </button>
+      <div class=" col-12">
+        <router-outlet></router-outlet>
       </div>
     </div>
-    <table class=" table" *ngIf = "products; else loader">
-      <thead>
-        <tr>
-          <td>Id</td>
-          <td>Name</td>
-          <td>Price</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor = "let prod of products;">
-          <td>{{prod.productId}}</td>
-          <td>{{prod.name}}</td>
-          <td>{{prod.price}}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-  <ng-template #loader>
-    <div class=" col-12 text-center text-danger">
-      Loading...
-    </div>
-  </ng-template>
 </body>

@@ -1,0 +1,20 @@
+<div class=" col-12" *ngIf = "product; else loader;">
+    <div class="row">
+        <div class="col-6">Name</div>
+        <div class="col-6">{{product.name}}</div>
+    </div>
+    <div class="row">
+        <div class="col-6">Category</div>
+        <div class="col-6">{{product.category}}</div>
+    </div>
+    <div class="row">
+        <div class="col-6">Price</div>
+        <div class="col-6">{{product.price}}</div>
+    </div>
+</div>
+<div class=" col-12 text-center">
+    <button class=" btn btn-secondary" routerLink = "/table">Cancel</button>
+</div>
+<ng-template #loader>
+    <div class=" text-danger text-center">Loading...</div>
+</ng-template>

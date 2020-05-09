@@ -1,0 +1,21 @@
+<table class=" table" *ngIf = "products; else loader;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let prod of products;" [routerLink] = "['/detail', prod.productId]">
+            <td>{{prod.name}}</td>
+            <td>{{prod.category}}</td>
+            <td>{{prod.price}}</td>
+        </tr>
+    </tbody>
+</table>
+<ng-template #loader>
+    <div class=" col-12 text-center text-danger">
+        Loading...
+      </div>
+</ng-template>
