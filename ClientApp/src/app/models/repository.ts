@@ -2,7 +2,10 @@ import { Product } from "./product.model";
 import { Supplier } from "./supplier.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-
+import { Observable } from "rxjs";
+const productsUrl = '/api/products';
+const supplierUrl = '/api/suppliers';
+const sessionUrl = '/api/session';
 @Injectable()
 export class Repository {
     constructor(private http: HttpClient) {
@@ -14,12 +17,12 @@ export class Repository {
     public suppliers: Supplier[];
 
     public getProduct(id: number) {
-        this.http.get<Product>(`/api/products/${id}`).subscribe(res => {
+        this.http.get<Product>(`${productsUrl}/${id}`).subscribe(res => {
             this.product = res;
         });
     }
     public getProducts(related: boolean = false) {
-        this.http.get<Product[]>(`/api/products?related=${related}`).subscribe(res => {
+        this.http.get<Product[]>(`${productsUrl}?related=${related}`).subscribe(res => {
             this.products = res;
         });
     }
@@ -31,7 +34,7 @@ export class Repository {
             price: prod.price,
             supplier: prod.supplier ? prod.supplier.supplierId : 0
         }
-        this.http.post<number>(`/api/products`, data).subscribe(res => {
+        this.http.post<number>(`${productsUrl}`, data).subscribe(res => {
             prod.productId = res;
             this.products.push(prod);
         });
@@ -50,38 +53,45 @@ export class Repository {
         });
     }
     public deleteProduct(id: number) {
-        this.http.delete(`/api/products/${id}`).subscribe(res => {
+        this.http.delete(`${productsUrl}/${id}`).subscribe(res => {
             this.getProducts();
         });
     }
     //suppliers api
     public getSupplier(id: number) {
-        this.http.get<Supplier>(`/api/suppliers/${id}`).subscribe(res => {
+        this.http.get<Supplier>(`${supplierUrl}/${id}`).subscribe(res => {
             this.supplier = res;
         });
     }
     public getSuppliers() {
-        this.http.get<Supplier[]>(`/api/suppliers`).subscribe(res => {
+        this.http.get<Supplier[]>(`${supplierUrl}`).subscribe(res => {
             this.suppliers = res;
         });
     }
     public createSupplier(sup: Supplier) {
         let data = {name: sup.name, surname: sup.surname, location: sup.location};
-        this.http.post<number>(`/api/suppliers`, data).subscribe(res => {
+        this.http.post<number>(`${supplierUrl}`, data).subscribe(res => {
             sup.supplierId = res;
             this.suppliers.push(sup);
         });
     }
     public updateSupplier(sup: Supplier) {
         let data = {name: sup.name, surname: sup.surname, location: sup.location};
-        this.http.put<number>(`/api/suppliers/${sup.supplierId}`, data).subscribe(res => {
+        this.http.put<number>(`${supplierUrl}/${sup.supplierId}`, data).subscribe(res => {
             sup.supplierId = res;
             this.suppliers.push(sup);
         });
     }
     public deleteSupplier(id: number) {
-        this.http.delete(`/api/suppliers/${id}`).subscribe(res => {
+        this.http.delete(`${supplierUrl}/${id}`).subscribe(res => {
             this.getSuppliers();
         });
+    }
+    //session data functions
+    public storeSessionData<T>(dataType: string, data: T) {
+        this.http.post(`${sessionUrl}/${dataType}`, data).subscribe(res => {});
+    }
+    public getSessionData<T>(dataType: string): Observable<T> {
+        return this.http.get<T>(`${sessionUrl}/${dataType}`);
     }
 }

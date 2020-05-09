@@ -1,4 +1,7 @@
 
-<div class=" col-12">
-    Cart Summary placeholder
+<div class=" text-right">
+    <span class=" badge-pill">
+        {{itemCount}} item(s) {{totalPrice | currency: "R":"symbol"}}
+    </span>
+    <button class=" btn btn-sm btn-primary" routerLink="/cart">View Cart</button>
 </div>

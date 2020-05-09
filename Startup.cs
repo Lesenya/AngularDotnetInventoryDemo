@@ -35,6 +35,17 @@ namespace AngularDotnetInventoryDemo
                     new OpenApiInfo {Title ="Lesenya Test Project", Version = "v1"}
                     );
             });
+            services.AddDistributedSqlServerCache(options => {
+                options.ConnectionString = conString;
+                options.SchemaName = "dbo";
+                options.TableName = "SessionData";
+            });
+            services.AddSession(options => {
+                options.Cookie.Name = "Inventory.Session";
+                options.IdleTimeout = System.TimeSpan.FromHours(24);
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, System.IServiceProvider services)
         {
@@ -51,6 +62,7 @@ namespace AngularDotnetInventoryDemo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();

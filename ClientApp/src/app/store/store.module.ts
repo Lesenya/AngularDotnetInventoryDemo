@@ -6,6 +6,9 @@ import { ProductListComponent } from "./productList.component";
 import { ProductSelectionComponent } from "./productSelection.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { TestComponent } from "./test.component";
+import { CartDetailComponent } from "./cartDetail.component";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -14,9 +17,10 @@ import { TestComponent } from "./test.component";
         PaginationComponent,
         ProductListComponent,
         ProductSelectionComponent,
-        TestComponent
+        TestComponent,
+        CartDetailComponent
     ],
-    imports: [BrowserModule],
+    imports: [BrowserModule, FormsModule, RouterModule],
     exports: [ProductSelectionComponent]
 })
 export class StoreModule {}

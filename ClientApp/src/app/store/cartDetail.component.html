@@ -1,0 +1,48 @@
+
+<div class="bg-dark text-white p-2">
+    <div class="navbar-brand">My STORE</div>
+</div>
+<div class=" m-1">
+    <h3>Your shopping cart</h3>
+    <table class=" table">
+        <thead>
+            <th>Quantity</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </thead>
+        <tbody>
+            <tr *ngIf = "cart.selections.length == 0">
+                <td colspan="4" class=" text-center">
+                    Your cart is empty
+                </td>
+            </tr>
+            <tr *ngFor="let selection of cart.selections">
+                <td>
+                    <input [(ngModel)] = "selection.quantity" class=" form-control-sm" style="width: 5em;">
+                </td>
+                <td>
+                    {{selection.name}}
+                </td>
+                <td>
+                    {{selection.price | currency: "R": "symbol"}}
+                </td>
+                <td>
+                    {{selection.price * selection.quantity | currency: "R": "symbol"}}
+                </td>
+                <td>
+                    <button class=" btn btn-sm btn-danger" 
+                            (click) ="cart.updateQuantity(selection.productId, 0)">
+                        remove
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Total:</td>
+                <td class=" text-right">{{cart.totalPrice | currency: "R": "symbol"}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
