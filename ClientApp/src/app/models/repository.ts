@@ -3,9 +3,12 @@ import { Supplier } from "./supplier.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { Order, OrderConfirmation } from "./order.model";
+
 const productsUrl = '/api/products';
 const supplierUrl = '/api/suppliers';
 const sessionUrl = '/api/session';
+const ordersUrl = '/api/orders'
 @Injectable()
 export class Repository {
     constructor(private http: HttpClient) {
@@ -15,6 +18,7 @@ export class Repository {
     public products: Product[]
     public supplier: Supplier;
     public suppliers: Supplier[];
+    public orders: Order[];
 
     public getProduct(id: number) {
         this.http.get<Product>(`${productsUrl}/${id}`).subscribe(res => {
@@ -93,5 +97,29 @@ export class Repository {
     }
     public getSessionData<T>(dataType: string): Observable<T> {
         return this.http.get<T>(`${sessionUrl}/${dataType}`);
+    }
+
+    //orders
+    public getOrders() {
+        this.http.get<Order[]>(ordersUrl).subscribe(res => {
+            this.orders = res;
+        });
+    }
+    createOrder(order: Order) {
+        let data = {
+            name: order.name,
+            address: order.address,
+            payment: order.payment,
+            products: order.products
+            };
+        this.http.post<OrderConfirmation>(ordersUrl, data).subscribe(data => {
+            order.orderConfirmation = data
+            order.cart.clear();
+            order.clear();
+            }
+        );
+    }
+    shipOrder(order: Order) {
+        this.http.post(`${ordersUrl}/${order.orderId}`, {}).subscribe(() => this.getOrders())
     }
 }

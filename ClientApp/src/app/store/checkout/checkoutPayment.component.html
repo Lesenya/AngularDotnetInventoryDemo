@@ -1,0 +1,50 @@
+<div class="bg-dark text-white p-2">
+    <div class="navbar-brand">SPORTS STORE</div>
+</div>
+<h2 class="text-center mt-1">Step 2: Payment</h2>
+
+<div class=" p-2">
+    <form novalidate #paymentForm="ngForm">
+        <div class=" form-group">
+            <label>Card Number</label>
+            <input type="text" #cardNumber="ngModel" 
+                    name="cardNumber" class=" form-control" 
+                    [(ngModel)]="order.payment.cardNumber"
+                    required>
+            <div *ngIf="cardNumber.invalid">
+                Please enter you card number
+            </div>
+        </div>
+        <div class=" form-group">
+            <label>Card Expiry</label>
+            <input type="date" #cardExpiry="ngModel" 
+                    name="cardExpiry" class=" form-control" 
+                    [(ngModel)]="order.payment.cardExpiry"
+                    required>
+            <div *ngIf="cardExpiry.invalid">
+                Please enter you card expiry
+            </div>
+        </div>
+        <div class=" form-group">
+            <label>Card Security Code</label>
+            <input  #cardSecurityCode="ngModel" 
+                    name="cardSecurityCode" class=" form-control" 
+                    [(ngModel)]="order.payment.cardSecurityCode"
+                    required>
+            <div *ngIf="cardSecurityCode.invalid">
+                Please enter you card security code
+            </div>
+        </div>
+        <div class="text-center pt-2">
+            <button type="button" class="btn btn-outline-primary m-1"
+                    routerLink="/checkout/step1">
+                Back
+            </button>
+            <button type="button" class="btn btn-danger m-1"
+                    [disabled]="paymentForm.invalid"
+                    routerLink="/checkout/step3">
+                Next
+            </button>
+        </div>
+    </form>
+</div>
