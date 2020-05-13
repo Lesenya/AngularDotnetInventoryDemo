@@ -1,6 +1,17 @@
 import { Repository } from "./repository";
 import { Cart } from "./cart.model";
 import { Injectable } from "@angular/core";
+import { Router, NavigationStart } from "@angular/router";
+import { filter } from "rxjs/operators";
+
+type OrderSession = {
+    name: string,
+    address: string,
+    cardNumber: string,
+    cardExpiry: string,
+    cardSecurityCode: string
+    }
+
 @Injectable()
 export class Order {
     orderId: number;
@@ -11,7 +22,30 @@ export class Order {
     shipped: boolean = false;
     orderConfirmation: OrderConfirmation;
 
-    constructor(private repo: Repository, public cart: Cart) {}
+    constructor(private repo: Repository, public cart: Cart, private router: Router) {
+        router.events.pipe(filter(event => event instanceof NavigationStart))
+        .subscribe(event => {
+            if(router.url.startsWith("/checkout") && this.name != null && this.address != null) {
+                let data: OrderSession = {
+                    name: this.name, 
+                    address: this.address, 
+                    cardExpiry: this.payment.cardExpiry, 
+                    cardNumber: this.payment.cardNumber, 
+                    cardSecurityCode: this.payment.cardSecurityCode
+                };
+                repo.storeSessionData<OrderSession>("checkout", data);
+            }
+        });
+        repo.getSessionData<OrderSession>("checkout").subscribe(data => {
+            if (data != null) {
+            this.name = data.name;
+            this.address = data.address;
+            this.payment.cardNumber = data.cardNumber;
+            this.payment.cardExpiry = data.cardExpiry;
+            this.payment.cardSecurityCode = data.cardSecurityCode;
+            }
+        });
+    }
 
     get products(): CartLine[] {
         return this.cart.selections
