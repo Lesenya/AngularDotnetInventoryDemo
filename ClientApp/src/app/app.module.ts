@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ModelModule } from './models/model.module';
 import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from './store/store.module';
+import { ErrorHandlerService } from './errorHandler.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { StoreModule } from './store/store.module';
     StoreModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ErrorHandlerService, {provide: HTTP_INTERCEPTORS, useExisting: ErrorHandlerService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

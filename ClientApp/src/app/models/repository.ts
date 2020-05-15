@@ -12,7 +12,7 @@ const ordersUrl = '/api/orders'
 @Injectable()
 export class Repository {
     constructor(private http: HttpClient) {
-        this.getProducts();
+        this.getProducts(true);
     }
     public product: Product;
     public products: Product[]
@@ -35,12 +35,12 @@ export class Repository {
             name: prod.name, 
             category: prod.category,
             description: prod.description,
-            price: prod.price,
+            price: prod.price? Number(prod.price): 0,
             supplier: prod.supplier ? prod.supplier.supplierId : 0
         }
         this.http.post<number>(`${productsUrl}`, data).subscribe(res => {
             prod.productId = res;
-            this.products.push(prod);
+            this.products.push(prod); // Todo: Correct this
         });
     }
     public updateProduct(prod: Product) {
@@ -48,12 +48,12 @@ export class Repository {
             name: prod.name, 
             category: prod.category,
             description: prod.description,
-            price: prod.price,
+            price: prod.price? Number(prod.price) : 0,
             supplier: prod.supplier ? prod.supplier.supplierId : 0
         }
         this.http.put<number>(`/api/products/${prod.productId}`, data).subscribe(res => {
             prod.productId = res;
-            this.products.push(prod);
+            this.products.push(prod); // Todo: Correct this
         });
     }
     public deleteProduct(id: number) {

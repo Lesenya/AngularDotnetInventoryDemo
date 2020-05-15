@@ -5,6 +5,8 @@ import { AdminComponent } from "./admin.component";
 import { OrderAdminComponent } from "./orderAdmin.component";
 import { OverviewComponent } from "./overview.component";
 import {ProductAdminComponent} from "./productAdmin.component";
+import { ProductEditorComponent } from "./productEditor.component";
+import { CommonModule } from "@angular/common";
 
 const routes: Routes = [
     {path: "", component: AdminComponent,
@@ -17,7 +19,12 @@ const routes: Routes = [
     }
 ];
 @NgModule({
-    imports: [FormsModule, RouterModule.forChild(routes)],
-    declarations: [AdminComponent, OrderAdminComponent, OverviewComponent, ProductAdminComponent]
+    imports: [FormsModule, CommonModule, RouterModule.forChild(routes)],
+    declarations: [
+        AdminComponent, 
+        OrderAdminComponent,
+         OverviewComponent, 
+         ProductAdminComponent, 
+         ProductEditorComponent]
 })
 export class AdminModule {}
