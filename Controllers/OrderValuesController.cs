@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AngularDotnetInventoryDemo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularDotnetInventoryDemo.Controllers
 {
     [ApiController]
     [Route("/api/orders")]
+    [Authorize(Roles = "Administrator")]
     public class OrderValuesController: Controller
     {
         private DataContext context;
@@ -31,6 +33,7 @@ namespace AngularDotnetInventoryDemo.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateOrder([FromBody] Order order) {
             if (ModelState.IsValid) {
                 order.OrderId = 0;

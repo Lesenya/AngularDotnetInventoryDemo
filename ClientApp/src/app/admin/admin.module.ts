@@ -7,9 +7,15 @@ import { OverviewComponent } from "./overview.component";
 import {ProductAdminComponent} from "./productAdmin.component";
 import { ProductEditorComponent } from "./productEditor.component";
 import { CommonModule } from "@angular/common";
+import { AuthModule } from "../auth/auth.module";
+import { AuthenticationComponent } from "../auth/authentication.component";
+import { AuthenticationGuard } from "../auth/authentication.guard";
 
 const routes: Routes = [
-    {path: "", component: AdminComponent,
+    {path: "login", component: AuthenticationComponent},
+    {
+        path: "", component: AdminComponent,
+        canActivateChild: [AuthenticationGuard],
         children: [
             {path: "products", component: ProductAdminComponent},
             {path: "orders", component: OrderAdminComponent},
@@ -19,7 +25,7 @@ const routes: Routes = [
     }
 ];
 @NgModule({
-    imports: [FormsModule, CommonModule, RouterModule.forChild(routes)],
+    imports: [FormsModule, CommonModule, RouterModule.forChild(routes), AuthModule],
     declarations: [
         AdminComponent, 
         OrderAdminComponent,

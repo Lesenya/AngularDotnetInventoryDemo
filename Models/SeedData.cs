@@ -9,6 +9,7 @@ namespace AngularDotnetInventoryDemo.Models
     public class SeedData
     {
         public static void SeedDatabase(DataContext context) {
+            context.Database.Migrate();
             if (context.Products.Count() == 0) {
                 Supplier supplier1 = new Supplier { 
                     Name = "Lesenya",

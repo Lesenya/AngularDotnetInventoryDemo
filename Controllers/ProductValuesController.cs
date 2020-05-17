@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using AngularDotnetInventoryDemo.Models;
 using Microsoft.EntityFrameworkCore;
 using AngularDotnetInventoryDemo.Models.BindingTargets;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularDotnetInventoryDemo.Controllers
 {
     [ApiController]
     [Route("api/products")]
+    [Authorize(Roles = "Administrator")]
     public class ProductValuesController: Controller
     {
         private DataContext context;
@@ -18,6 +20,7 @@ namespace AngularDotnetInventoryDemo.Controllers
             this.context = ctx;
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public Product GetProduct(long id) {
             Product product = context.Products.Include(p => p.Supplier).FirstOrDefault(p => p.ProductId == id);
             if (product != null) {
@@ -29,9 +32,10 @@ namespace AngularDotnetInventoryDemo.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<Product> GetProducts(bool related = false) {
             IQueryable<Product> products = context.Products;
-            if (related) {
+            if (related && HttpContext.User.IsInRole("Administrator")) {
                 products = products.Include(p => p.Supplier);
                 List<Product> productList = products.ToList();
                 productList.ForEach(p => {

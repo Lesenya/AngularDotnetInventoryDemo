@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using AngularDotnetInventoryDemo.Models;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AngularDotnetInventoryDemo
 {
@@ -25,6 +26,12 @@ namespace AngularDotnetInventoryDemo
             services.AddDbContext<DataContext>(options => { 
                 options.UseSqlServer(conString);
             });
+            services.AddDbContext<IdentityDataContext>(options => {
+                options.UseSqlServer(Configuration["ConnectionStrings:Identity"]);
+            });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<IdentityDataContext>();
+
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration =>
             {
@@ -69,7 +76,8 @@ namespace AngularDotnetInventoryDemo
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -94,6 +102,7 @@ namespace AngularDotnetInventoryDemo
                 }
             });
             SeedData.SeedDatabase(services.GetRequiredService<DataContext>());
+            IdentitySeedData.SeedDataBase(services).Wait();
         }
     }
 }

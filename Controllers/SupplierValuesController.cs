@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AngularDotnetInventoryDemo.Models;
 using AngularDotnetInventoryDemo.Models.BindingTargets;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularDotnetInventoryDemo.Controllers
 {
     [ApiController]
     [Route("api/suppliers")]
+    [Authorize(Roles = "Administrator")]
     public class SupplierValuesController: Controller
     {
         private DataContext context;
